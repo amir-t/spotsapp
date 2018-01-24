@@ -29,7 +29,7 @@ export class HomePage
 
   directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true}); //Initialize Directions Service
   directionsService = new google.maps.DirectionsService;                           //
-
+  
   constructor(public navCtrl: NavController,private geolocation : Geolocation) {
       
   }
@@ -353,10 +353,12 @@ export class HomePage
         var position = this.currentPos;
         this.addMarker(); // Ajout du Marker Sur Notre Position 
         this.directionsDisplay.setMap(this.map);
-        this.loadJsonButton();
+
+        this.loadJsonButton();    //load function pour afficher buttons et récuperer event listener
         this.loadFiltreButton();
         this.eventListenerOnButton();
         this.MapOnMooveListener();
+        this.loadinfoButton();
     
   }
 
@@ -644,7 +646,7 @@ export class HomePage
   }
   loadJsonButton()          // Loading GeoJSOn Button of Commun's tranports
   {
-
+        
         var that = this;
         let isActive : boolean = false;
 
@@ -712,10 +714,46 @@ export class HomePage
   {
 
     var map = this.map.data;
-
-    map.loadGeoJson(
+    var data_layer = new google.maps.Data({map: this.map});
+    var data_layer_2 = new google.maps.Data({map: this.map});
+    var data_layer_3 = new google.maps.Data({map: this.map});
+    var data_layer_4 = new google.maps.Data({map: this.map});
+    switch(geojson){
+      case "Bus":
+      data_layer.loadGeoJson(
         '../assets/geojson/'+geojson+'.geojson'
-    );
+      );
+      break;
+      case "Metro":
+      data_layer_2.loadGeoJson(
+        '../assets/geojson/'+geojson+'.geojson'
+      );
+      break;
+      case "Tramway":
+      data_layer_3.loadGeoJson(
+        '../assets/geojson/'+geojson+'.geojson'
+      );
+      break;
+      case "Velo":
+      data_layer_4.loadGeoJson(
+        '../assets/geojson/'+geojson+'.geojson'
+      );
+      break;
+    }
+    data_layer.setStyle({
+      icon:'./assets/img/busBulle.png'
+    });
+    data_layer_2.setStyle({
+      icon:'./assets/img/metroBulle.png'
+      
+    });
+    data_layer_3.setStyle({
+      icon: './assets/img/tramBulle.png'
+    });
+    data_layer_4.setStyle({
+      icon: './assets/img/veloBulle.png'
+  });
+    
 
 
 
@@ -740,5 +778,23 @@ export class HomePage
 
       this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(filtre);
       this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(paternFiltre);
+  }
+
+  loadinfoButton(){
+    let info = document.getElementById("Infos");
+    let paternInfo = document.getElementById("paternInfo");
+    info.addEventListener('click',function(){
+          if(paternInfo.style.display =='none'){
+                paternInfo.style.display ='block';
+          }
+          else{
+                paternInfo.style.display ='none';
+          }
+    });
+
+    this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(info);
+    this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(paternInfo);
+
+
   }
 }

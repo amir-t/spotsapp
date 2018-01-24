@@ -44,8 +44,20 @@ page-home {
 	#chooseFiltre{
 	margin-right: 30px;
 	margin-top :50px;
-	}
+    }
+    
+    #paternInfo div{
+            font-size: 20px;
+    }
+    #paternInfo{
+        width: 20%;
+        height:15%;
+        margin-top: 0%;
+        background-color: #3e383f;
+        opacity : 0.8;
+        color: white;
+    }
+}
 
 
 
-} 
