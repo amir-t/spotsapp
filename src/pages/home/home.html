@@ -7,9 +7,48 @@
   </ion-header>
   
 <ion-content padding>
-  
-  <div #map id="map"></div> 
-  
+
+  <div #map id="map">
+
+  </div> 
+    <button style="position: absolute;" id="loadMetroJson"><img src="./assets/img/metro.svg"></button>
+    <button style="position: absolute;" id="loadBusJson"><img src="./assets/img/bus.svg"></button>
+    <button style="position: absolute;" id="loadTramwayJson"><img src="./assets/img/tram.svg"></button>
+      <button style="position: absolute;" id="loadVeloJson"><img src="./assets/img/bycicle.svg"></button>
+
+    <button id="chooseFiltre" style="position: absolute;"><img src="./assets/icon/left-arrow.svg"></button>
+  <div id="paternFiltre" style="display:none">
+    <div class="pretty p-icon p-round p-tada">
+        <input id="Bar" type="checkbox"/>
+        <div class="state p-primary-o">
+            <i class="icon mdi mdi-heart"></i>
+            <label>Bar</label>
+        </div>
+    </div>
+    <div class="pretty p-icon p-round p-tada">
+        <input id="NightClub" type="checkbox" />
+        <div class="state p-primary-o">
+            <i class="icon mdi mdi-heart"></i>
+            <label>Boite de Nuit</label>
+        </div>
+    </div>
+    <div class="pretty p-icon p-round p-tada">
+        <input id="Tobacco" type="checkbox" />
+        <div class="state p-primary-o">
+            <i class="icon mdi mdi-heart"></i>
+            <label>Tabac</label>
+        </div>
+    </div>
+    <div class="pretty p-icon p-round p-tada">
+        <input id="LiquorStore" type="checkbox" />
+        <div class="state p-primary-o">
+            <i class="icon mdi mdi-heart"></i>
+            <label>Epicerie</label>
+        </div>
+    </div>
+</div>
+
+   
   <div style="width : 100% ;height: 100%">
       <ion-list>
       <ion-item *ngFor="let place of places">
@@ -17,5 +56,7 @@
       </ion-item>
       </ion-list>
   </div>
-  
+
+
+
 </ion-content>
