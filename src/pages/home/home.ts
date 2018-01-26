@@ -1,6 +1,7 @@
 import { Component , ViewChild ,ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Geolocation ,GeolocationOptions ,Geoposition ,PositionError } from '@ionic-native/geolocation'; 
+import { assert } from 'ionic-angular/util/util';
 
 declare var google;
 
@@ -26,6 +27,11 @@ export class HomePage
   inputBarG : any;
   inputNightClubG : any;
   inputEpicerieG : any;
+
+  inputMetro :boolean = false;
+  inputTram :boolean =false;
+  inputBus: boolean = false;
+  inputVelo : boolean = false;
 
   directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true}); //Initialize Directions Service
   directionsService = new google.maps.DirectionsService;                           //
@@ -370,11 +376,20 @@ export class HomePage
           icon: iconBase + 'star.png'  
         }
     };
+    var catIcon = {
+      url: '../assets/icon/star.png',
+      //state your size parameters in terms of pixels
+      size: new google.maps.Size(120, 90),
+      scaledSize: new google.maps.Size(70, 60),
+      origin: new google.maps.Point(-15,-15,-15,-15)
+  }
+
     let marker = new google.maps.Marker({
     map: this.map,
     animation: google.maps.Animation.DROP,
     position: this.map.getCenter(),
-    icon : icons["Us"].icon  
+    icon : catIcon,
+    optimized: false
     });
 
     let content = "<p>This is your current position !</p>";          
@@ -386,6 +401,13 @@ export class HomePage
           infoWindow.open(this.map, marker);
 
     });
+    
+  var myoverlay = new google.maps.OverlayView();
+  myoverlay.draw = function () {
+      // add an id to the layer that includes all the markers so you can use it in CSS
+      this.getPanes().markerLayer.id='markerLayer';
+  };
+  myoverlay.setMap(this.map);
   }
 
 
@@ -720,29 +742,58 @@ export class HomePage
     var data_layer_4 = new google.maps.Data({map: this.map});
     switch(geojson){
       case "Bus":
-      data_layer.loadGeoJson(
+      if(this.inputBus ==false){
+         data_layer.loadGeoJson(
         '../assets/geojson/'+geojson+'.geojson'
-      );
+        );
+        data_layer.setStyle({
+          icon:'./assets/img/busBulle.png'
+        });
+        this.inputBus = true;
+      }
+      else{
+        data_layer = 0;
+        this.inputBus = false;
+      }
       break;
       case "Metro":
-      data_layer_2.loadGeoJson(
-        '../assets/geojson/'+geojson+'.geojson'
-      );
+      if(this.inputMetro==false){
+          data_layer_2.loadGeoJson(
+          '../assets/geojson/'+geojson+'.geojson'
+          );
+          this.inputMetro =true;
+      }
+      else{
+        data_layer_2 = 0;
+        this.inputMetro = false;
+      }
       break;
       case "Tramway":
-      data_layer_3.loadGeoJson(
-        '../assets/geojson/'+geojson+'.geojson'
-      );
+      if(this.inputTram ==false){
+        data_layer_3.loadGeoJson(
+          '../assets/geojson/'+geojson+'.geojson'
+        );
+        this.inputTram =true;
+      }
+      else{
+          data_layer_3 = 0;
+          this.inputTram = false
+      }
       break;
       case "Velo":
-      data_layer_4.loadGeoJson(
-        '../assets/geojson/'+geojson+'.geojson'
-      );
+      if(this.inputVelo==false){
+        data_layer_4.loadGeoJson(
+          '../assets/geojson/'+geojson+'.geojson'
+        );
+        this.inputVelo =true;
+      }
+      else{
+        data_layer_4=0; 
+        this.inputVelo = false
+      }
       break;
     }
-    data_layer.setStyle({
-      icon:'./assets/img/busBulle.png'
-    });
+    
     data_layer_2.setStyle({
       icon:'./assets/img/metroBulle.png'
       
