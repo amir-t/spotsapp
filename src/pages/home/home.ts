@@ -1,5 +1,5 @@
 import { Component , ViewChild ,ElementRef } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams , Slides , Content,Platform } from 'ionic-angular';
 import { Geolocation ,GeolocationOptions ,Geoposition ,PositionError } from '@ionic-native/geolocation'; 
 import { assert } from 'ionic-angular/util/util';
 
@@ -36,8 +36,21 @@ export class HomePage
   directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true}); //Initialize Directions Service
   directionsService = new google.maps.DirectionsService;                           //
   
-  constructor(public navCtrl: NavController,private geolocation : Geolocation) {
-      
+  @ViewChild('SwipedTabsSlider') SwipedTabsSlider: Slides ;
+  @ViewChild('MultiItemsScrollingTabs') ItemsTitles : Content;
+
+  SwipedTabsIndicator :any= null;
+  tabTitleWidthArray :any= [];
+  tabElementWidth_px :number= 50;
+  screenWidth_px :number= 0;
+  isRight :boolean= true;
+  isLeft:boolean= true;
+  tabs:any=[];
+
+  constructor(public navCtrl: NavController,private geolocation : Geolocation,platform: Platform) {
+    this.tabs=["settings","map","frinds"];
+    console.log('Width: ' + platform.width());
+    this.screenWidth_px=platform.width();
   }
   getUserPosition()
   {
@@ -848,4 +861,3 @@ export class HomePage
 
 
   }
-}
