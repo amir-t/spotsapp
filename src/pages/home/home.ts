@@ -1,7 +1,6 @@
 import { Component , ViewChild ,ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams , Slides , Content,Platform } from 'ionic-angular';
+import {  NavController} from 'ionic-angular';
 import { Geolocation ,GeolocationOptions ,Geoposition ,PositionError } from '@ionic-native/geolocation'; 
-import { assert } from 'ionic-angular/util/util';
 
 declare var google;
 
@@ -36,21 +35,9 @@ export class HomePage
   directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true}); //Initialize Directions Service
   directionsService = new google.maps.DirectionsService;                           //
   
-  @ViewChild('SwipedTabsSlider') SwipedTabsSlider: Slides ;
-  @ViewChild('MultiItemsScrollingTabs') ItemsTitles : Content;
 
-  SwipedTabsIndicator :any= null;
-  tabTitleWidthArray :any= [];
-  tabElementWidth_px :number= 50;
-  screenWidth_px :number= 0;
-  isRight :boolean= true;
-  isLeft:boolean= true;
-  tabs:any=[];
-
-  constructor(public navCtrl: NavController,private geolocation : Geolocation,platform: Platform) {
-    this.tabs=["settings","map","frinds"];
-    console.log('Width: ' + platform.width());
-    this.screenWidth_px=platform.width();
+  constructor(public navCtrl: NavController,private geolocation : Geolocation) {
+  
   }
   getUserPosition()
   {
@@ -448,7 +435,7 @@ export class HomePage
               }
           else{
                 that.inputBarG=1;
-                var Choice =["Bar"];                          // Choice Bar
+                var Choice =["bar"];                          // Choice Bar
                 that.getStuffAsChoice(Choice).then((results : Array<any>)=>{      //go into Function getStuff where Choice = "Bar"
                        for(let i = 0 ;i < results.length ; i++)
                        {
@@ -774,6 +761,10 @@ export class HomePage
           data_layer_2.loadGeoJson(
           '../assets/geojson/'+geojson+'.geojson'
           );
+          data_layer_2.setStyle({
+            icon:'./assets/img/metroBulle.png'
+            
+          });
           this.inputMetro =true;
       }
       else{
@@ -786,6 +777,9 @@ export class HomePage
         data_layer_3.loadGeoJson(
           '../assets/geojson/'+geojson+'.geojson'
         );
+        data_layer_3.setStyle({
+          icon: './assets/img/tramBulle.png'
+        });
         this.inputTram =true;
       }
       else{
@@ -798,6 +792,9 @@ export class HomePage
         data_layer_4.loadGeoJson(
           '../assets/geojson/'+geojson+'.geojson'
         );
+        data_layer_4.setStyle({
+          icon: './assets/img/veloBulle.png'
+      });
         this.inputVelo =true;
       }
       else{
@@ -807,16 +804,9 @@ export class HomePage
       break;
     }
     
-    data_layer_2.setStyle({
-      icon:'./assets/img/metroBulle.png'
-      
-    });
-    data_layer_3.setStyle({
-      icon: './assets/img/tramBulle.png'
-    });
-    data_layer_4.setStyle({
-      icon: './assets/img/veloBulle.png'
-  });
+    
+    
+    
     
 
 
@@ -861,3 +851,4 @@ export class HomePage
 
 
   }
+}
